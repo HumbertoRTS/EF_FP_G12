@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="Clases\Clientes.cs" />
     <Compile Include="Clases\Productos.cs" />
+    <Compile Include="Clases\Validaciones.cs" />
     <Compile Include="Menu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -90,6 +91,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="RegistroClientes.resx">
+      <DependentUpon>RegistroClientes.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="RegistroProductos.resx">
       <DependentUpon>RegistroProductos.cs</DependentUpon>
     </EmbeddedResource>

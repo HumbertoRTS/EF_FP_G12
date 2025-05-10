@@ -45,30 +45,8 @@ namespace EF_FP_G12
                 // Enfocar el campo de código para ingresar un nuevo producto
                 txtcodigo.Focus();
 
-                // Validar que los campos no estén vacíos
-                if (string.IsNullOrWhiteSpace(txtcodigo.Text) ||
-                    string.IsNullOrWhiteSpace(txtnombre.Text) ||
-                    string.IsNullOrWhiteSpace(txtcategoria.Text) ||
-                    string.IsNullOrWhiteSpace(txtcantidad.Text) ||
-                    string.IsNullOrWhiteSpace(txtprecio.Text))
-                {
-                    MessageBox.Show("Todos los campos deben estar rellenados.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                // Validar que Cantidad sea un número mayor o igual a 0
-                if (!int.TryParse(txtcantidad.Text, out int cantidad) || cantidad <= 0)
-                {
-                    MessageBox.Show("Debe ingresar un número mayor o igual a 0.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                // Validar que Precio sea un número decimal mayor que 0
-                if (!double.TryParse(txtprecio.Text, out double precio) || precio < 0)
-                {
-                    MessageBox.Show("Debe ingresar un número mayor que 0.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
+                // Validar que todos los campos estén llenos
+                if (!ValidarCampos()) return;
 
                 // Crear un nuevo producto con los datos del formulario
                 Productos nuevoProducto = new Productos()
@@ -99,9 +77,23 @@ namespace EF_FP_G12
                 MessageBox.Show($"Error al registrar producto: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private bool ValidarCampos()
+        {
+            // Validar que todos los campos estén llenos
+            if (string.IsNullOrWhiteSpace(txtcodigo.Text) || string.IsNullOrWhiteSpace(txtnombre.Text) ||
+                string.IsNullOrWhiteSpace(txtcategoria.Text) || string.IsNullOrWhiteSpace(txtcantidad.Text) ||
+                string.IsNullOrWhiteSpace(txtprecio.Text))
+            {
+                MessageBox.Show("Por favor, complete todos los campos.", "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            return true;
+        }
+
         private void btncancelar_Click(object sender, EventArgs e)
         {
-            DialogResult G12_cerrar = MessageBox.Show("¿Desea cancelar el registro del producto?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult G12_cerrar = MessageBox.Show("¿Desea cancelar el registro del producto y salir?", "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (G12_cerrar == DialogResult.Yes)
             {
@@ -114,8 +106,6 @@ namespace EF_FP_G12
             dgvprod.DataSource = null; // Limpiar el DataGridView
             dgvprod.DataSource = Productos.ObtenerListaProductos(); // Asignar la lista actualizada
         }
-
-
 
         private void btnstock_Click(object sender, EventArgs e)
         {
